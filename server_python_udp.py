@@ -7,18 +7,16 @@ udp_IP = ''
 udp_PORT = int(sys.argv[1])
 
 BUFFER_SIZE = 1024
-#Create socket instance with address family ip4 and UDP protocol
+# create udp sockert
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-# bind udp_PORT to server's socket
 serverSocket.bind((udp_IP, udp_PORT))
 
 while True:
-    # receive length command from client
+    # get length command 
     length_command, clientAddress = serverSocket.recvfrom(BUFFER_SIZE)
     try:
         serverSocket.settimeout(0.5) # waits 0.5 seconds
-        # receive command from client
+        # get command
         command, clientAddress = serverSocket.recvfrom(BUFFER_SIZE)
         print ("test")
         if(int(length_command.decode()) != len(command.decode())):

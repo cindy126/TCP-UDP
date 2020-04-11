@@ -40,7 +40,7 @@ clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 for i in range(4):
     if i == 3:
-        # closing connection if still failed up to 3 times
+        # closing connection if failed by the 3rd time
         print("Failed to send command. Terminating.")
         sys.exit()
     try:
