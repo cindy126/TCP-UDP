@@ -17,16 +17,14 @@ while(True):
 
     x = command.decode().split(" > ")
     text = x[0] + " > output.txt"
-    
-    '''
-    # Run command using a shell - ensure errors are caught
+
+    # run output
     try:
-        out = subprocess.check_output(text, shell=True)
-    #Any error will mean the command did not execute successfully - send a no response message to client signifying the command failed
-    except subprocess.CalledProcessError as grepexc:
-        connectionSocket.send("Did not receive response.".encode())
+        output = subprocess.run(text, shell=True)
+    except subprocess.CalledProcessError:
+        connectionSocket.sendto("Did not receive response.".encode())
         continue
-    '''
+
     readFile = open("output.txt", 'r')
     r = readFile.read(BUFFER_SIZE)
     while(r):
@@ -36,7 +34,6 @@ while(True):
         except socket.timeout:
             connectionSocket.send("Did not receive response.".encode())
             continue
-
 
     print("Successful File Transmission")
 

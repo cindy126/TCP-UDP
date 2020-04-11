@@ -18,20 +18,26 @@ while True:
         serverSocket.settimeout(0.5) # waits 0.5 seconds
         # get command
         command, clientAddress = serverSocket.recvfrom(BUFFER_SIZE)
-        print ("test")
         if(int(length_command.decode()) != len(command.decode())):
+            raise socket.timeout
             serverSocket.sendto("Failed to receive instructions from the client.".encode(), clientAddress)
         else:
             serverSocket.sendto("ACK".encode(), clientAddress)  
         serverSocket.setblocking(True)
-        
     except socket.timeout:
         print("Failed to receive instructions from the client.")
         serverSocket.setblocking(True)
         continue
-    
+
     x = command.decode().split(" > ")
     text = x[0] + " > output.txt"
+    
+    # run output
+    try:
+        output = subprocess.run(text, shell=True)
+    except subprocess.CalledProcessError:
+        serverSocket.sendto("Did not receive response.".encode())
+        continue
 
     # open files
     readFile = open("output.txt", 'r')
