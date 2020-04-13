@@ -6,7 +6,7 @@ https://www.geeksforgeeks.org/socket-programming-python/
 https://docs.python.org/3/library/socket.html#socket.socket.setblocking
 
 Textbook: J. Kurose and K. Ross, “Computer Networking: A Top-Down Approach Featuring the Internet”, 
-Addison-Wesley, 7th Edition (May 2016). Pages: 194-199 & 202-205.
+Addison-Wesley, 7th Edition (May 2016). Pages: 194-199.
 '''
 import socket
 import subprocess
