@@ -16,7 +16,7 @@ def listenAndRespond(serverSocket):
         if(length_command.decode() == "Ping"):
             return "Ping Successful"
         if(int(length_command.decode()) <= 0):
-            # invalid length. Ignore it
+            # invalid length
             return "Invalid Length"
     except ValueError:      # when first part of command is not number
         return "Protocol error"      
@@ -32,7 +32,7 @@ def listenAndRespond(serverSocket):
     except socket.timeout:
         return "Failed to receive instructions from the client."
 
-    # Replace the output file name with "output.txt"
+    # replace the output file name with "output.txt"
     x = command.decode().split(" > ")
     text = x[0] + " > output.txt" 
     try:     
@@ -66,7 +66,7 @@ def listenAndRespond(serverSocket):
             # read next block of file
             read = readFile.read(BUFFER_SIZE)  
 
-    # File transmission completed
+    # file transmission completed
     return "Successful file transmission."
 
 

@@ -30,7 +30,7 @@ def sendCommand(clientSocket, udpIP, udpPort, command):
             
             if (response.decode() == "ACK"):
                 return "OK"
-            clientSocket.setblocking(True)          # why?
+            clientSocket.setblocking(True)         
         except socket.timeout:
             # retry
             continue  

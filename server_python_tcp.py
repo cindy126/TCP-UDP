@@ -3,20 +3,26 @@ import sys
 import subprocess
 
 def fileTransmission(connectionSocket):
+    # same for server and client
     BUFFER_SIZE = 1024
 
     command = connectionSocket.recv(BUFFER_SIZE)
 
     text = (command.decode().split(" > "))[0] + " > syslog.txt"
 
+    # check if error
     try:
+        # run output
         subprocess.run(text, shell=True)
     except subprocess.CalledProcessError:
+        # error
         connectionSocket.sendto("Did not receive response.".encode())
         return "Error."
 
     readFile = open("syslog.txt", 'r')
     r = readFile.read(BUFFER_SIZE)
+    
+    # if r is true, keep on reading file and sending
     try:
         while(r):
             connectionSocket.send(r.encode())
@@ -25,13 +31,18 @@ def fileTransmission(connectionSocket):
         readFile.close()
         connectionSocket.close()
         return "Error."
+
+    # close socket connection
     connectionSocket.close()
+
+    # successful file transmission
     return "Successful file transmission."
 
 def main():
     tcp_IP = ''
     tcp_PORT = int(sys.argv[1])
 
+    # create socket
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serverSocket.bind((tcp_IP, tcp_PORT))
 
@@ -40,17 +51,6 @@ def main():
 
     while(True):
         connectionSocket, addr = serverSocket.accept()
-        '''
-        command = connectionSocket.recv(BUFFER_SIZE)
-
-        text = (command.decode().split(" > "))[0] + " > syslog.txt"
-
-        try:
-            subprocess.run(text, shell=True)
-        except subprocess.CalledProcessError:
-            connectionSocket.sendto("Did not receive response.".encode())
-            continue
-        '''
         print (fileTransmission(connectionSocket))
 
     serverSocket.close()
