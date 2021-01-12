@@ -27,7 +27,7 @@ def fileTransmission(connectionSocket):
         subprocess.run(text, shell=True)
     except subprocess.CalledProcessError:
         # error
-        connectionSocket.sendto("Did not receive response.".encode())
+        connectionSocket.send("Did not receive response.".encode())
         return "Error."
 
     readFile = open("syslog.txt", 'r')
